@@ -1,0 +1,53 @@
+name: Build and Deploy Website
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      # Build LAMPGenie app
+      - name: Build LAMPGenie
+        working-directory: ./LAMPGenie
+        run: |
+          npm install
+          npm run build
+          mkdir -p ../dist/LAMPGenie
+          cp -r dist/* ../dist/LAMPGenie/
+
+      # Copy all static content to dist folder
+      - name: Prepare static content
+        run: |
+          mkdir -p dist
+          cp -r images dist/
+          cp -r SciCanvas dist/
+          cp -r SOPEasy dist/
+          cp -r NanoForge dist/
+          cp -r irb dist/
+          cp index.html dist/
+          cp landing-styles.css dist/
+          cp CNAME dist/
+          cp hero-preview.png dist/
+          cp README.md dist/
+
+      # Deploy to GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          force_orphan: true 

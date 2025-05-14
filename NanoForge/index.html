@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoForge - Nanoparticle Designer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <i class="fas fa-atom"></i>
+                <span>NanoForge</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">Designer</a>
+                <a href="#">Library</a>
+                <a href="#">Documentation</a>
+                <a href="#">About</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="title-section">
+                <h1>Nanoparticle Designer</h1>
+                <p>Design customized nanoparticles with advanced stability prediction and 3D visualization</p>
+            </div>
+
+            <div class="designer-layout">
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <h3><i class="fas fa-cube"></i> Core Properties</h3>
+                        <div class="form-group">
+                            <label for="coreMaterial">Core Material</label>
+                            <select id="coreMaterial" class="form-control">
+                                <option value="gold">Gold (AuNP)</option>
+                                <option value="silver">Silver (AgNP)</option>
+                                <option value="iron-oxide">Iron Oxide (Fe₃O₄)</option>
+                                <option value="silica">Silica (SiO₂)</option>
+                                <option value="quantum-dot">Quantum Dot (CdSe)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="coreSize">Size (nm)</label>
+                            <div class="slider-container">
+                                <div class="slider-wrapper">
+                                    <input type="range" id="coreSize" class="slider" min="5" max="1000" value="50">
+                                    <span id="coreSizeValue" class="slider-value">50 nm</span>
+                                </div>
+                                <div class="input-container">
+                                    <input type="number" id="coreSizeInput" class="numeric-input" min="5" max="1000" value="50">
+                                    <span class="unit">nm</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="coreShape">Shape</label>
+                            <select id="coreShape" class="form-control">
+                                <option value="sphere">Sphere</option>
+                                <option value="rod">Rod</option>
+                                <option value="triangle">Triangle</option>
+                                <option value="cube">Cube</option>
+                                <option value="star">Star</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h3><i class="fas fa-layer-group"></i> Surface Modifications</h3>
+                        <div class="layers-container">
+                            <div class="layer-list" id="layerList">
+                                <!-- Layers will be added here dynamically -->
+                            </div>
+                            <button id="addLayerBtn" class="add-layer-btn">
+                                <i class="fas fa-plus"></i> Add Surface Layer
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h3><i class="fas fa-flask"></i> Environment</h3>
+                        <div class="form-group">
+                            <label for="medium">Medium</label>
+                            <select id="medium" class="form-control">
+                                <option value="water">Water</option>
+                                <option value="pbs">PBS</option>
+                                <option value="culture-medium">Cell Culture Medium</option>
+                                <option value="blood-serum">Blood Serum</option>
+                                <option value="saline">Saline</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ph">pH</label>
+                            <div class="slider-container">
+                                <div class="slider-wrapper">
+                                    <input type="range" id="ph" class="slider" min="3" max="10" step="0.1" value="7.4">
+                                    <span id="phValue" class="slider-value">7.4</span>
+                                </div>
+                                <div class="input-container">
+                                    <input type="number" id="phInput" class="numeric-input" min="3" max="10" step="0.1" value="7.4">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="temperature">Temperature (°C)</label>
+                            <div class="slider-container">
+                                <div class="slider-wrapper">
+                                    <input type="range" id="temperature" class="slider" min="0" max="100" value="25">
+                                    <span id="temperatureValue" class="slider-value">25°C</span>
+                                </div>
+                                <div class="input-container">
+                                    <input type="number" id="temperatureInput" class="numeric-input" min="0" max="100" value="25">
+                                    <span class="unit">°C</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visualization-panel">
+                    <div class="visualization-container">
+                        <div class="tab-container">
+                            <div class="tabs">
+                                <button class="tab active" data-tab="view-3d">3D View</button>
+                                <button class="tab" data-tab="view-layers">Layer Structure</button>
+                                <button class="tab" data-tab="view-prediction">Stability Prediction</button>
+                            </div>
+                            <div id="view-3d" class="tab-content active">
+                                <div class="canvas-container">
+                                    <canvas id="nanoparticleCanvas"></canvas>
+                                </div>
+                            </div>
+                            <div id="view-layers" class="tab-content">
+                                <div class="layer-diagram-container" id="layerDiagram">
+                                    <!-- Layer diagram will be rendered here -->
+                                </div>
+                            </div>
+                            <div id="view-prediction" class="tab-content">
+                                <div class="prediction-container" id="predictionResults">
+                                    <!-- Prediction results will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="property-display">
+                            <h3>Physical Properties</h3>
+                            <div class="property-list">
+                                <div class="property-item">
+                                    <span class="property-label">Hydrodynamic Diameter</span>
+                                    <span id="hydroDiameter" class="property-value">62.4 nm</span>
+                                </div>
+                                <div class="property-item">
+                                    <span class="property-label">Zeta Potential</span>
+                                    <span id="zetaPotential" class="property-value">-28.6 mV</span>
+                                </div>
+                                <div class="property-item">
+                                    <span class="property-label">Aggregation Potential</span>
+                                    <span id="aggregationStatus" class="property-value">
+                                        <span class="status-badge status-stable">Low</span>
+                                    </span>
+                                </div>
+                                <div class="property-item">
+                                    <span class="property-label">Surface Coverage</span>
+                                    <span id="surfaceCoverage" class="property-value">92%</span>
+                                </div>
+                            </div>
+
+                            <div id="compatibilityIndicator" class="compatibility-indicator compatibility-stable">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="compatibility-message">
+                                    <div class="compatibility-title">Stable Configuration</div>
+                                    <div class="compatibility-desc">This nanoparticle design is predicted to be stable in the selected medium.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary">
+                    <i class="fas fa-save"></i> Save Design
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Layer Modal -->
+    <div id="addLayerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Surface Layer</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="layerType">Layer Type</label>
+                    <select id="layerType" class="form-control">
+                        <option value="polymer">Polymer Coating</option>
+                        <option value="lipid">Lipid Layer</option>
+                        <option value="protein">Protein Conjugation</option>
+                        <option value="small-molecule">Small Molecule</option>
+                        <option value="carbohydrate">Carbohydrate</option>
+                        <option value="dna-rna">DNA/RNA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="layerMaterial">Material</label>
+                    <select id="layerMaterial" class="form-control">
+                        <!-- Will be populated based on layer type -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="layerThickness">Layer Thickness (nm)</label>
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <input type="range" id="layerThickness" class="slider" min="0.5" max="20" step="0.5" value="2">
+                            <span id="layerThicknessValue" class="slider-value">2 nm</span>
+                        </div>
+                        <div class="input-container">
+                            <input type="number" id="layerThicknessInput" class="numeric-input" min="0.5" max="20" step="0.5" value="2">
+                            <span class="unit">nm</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="surfaceCoverage">Surface Coverage (%)</label>
+                    <div class="slider-container">
+                        <div class="slider-wrapper">
+                            <input type="range" id="layerCoverage" class="slider" min="10" max="100" value="90">
+                            <span id="layerCoverageValue" class="slider-value">90%</span>
+                        </div>
+                        <div class="input-container">
+                            <input type="number" id="layerCoverageInput" class="numeric-input" min="10" max="100" value="90">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelLayerBtn" class="btn btn-secondary">Cancel</button>
+                <button id="addLayerSubmitBtn" class="btn btn-primary">Add Layer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

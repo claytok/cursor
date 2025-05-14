@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOPEasy - Create Industry-Standard SOPs in Minutes</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="#"><span class="logo-text">SOP</span>Easy</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#" id="templates-link">Templates</a></li>
+                    <li><a href="#" id="my-sops-link">My SOPs</a></li>
+                    <li><a href="#" id="help-link">Help</a></li>
+                    <li><a href="#" id="profile-link">Profile</a></li>
+                    <li><a href="#" class="nav-cta" id="start-new-sop">Start New SOP</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- SOP Creator Main Interface -->
+        <main class="sop-creator" id="sop-creator">
+            <div class="container">
+                <div class="sop-builder-interface">
+                    <!-- Left Panel: Question Flow -->
+                    <div class="question-panel">
+                        <div class="template-selection" id="template-selection">
+                            <h2>Select a Template</h2>
+                            <p>Choose an SOP template to start with:</p>
+                            <div class="template-grid">
+                                <div class="template-option active" data-template="lab-equipment">
+                                    <div class="template-icon">
+                                        <i class="fas fa-flask"></i>
+                                    </div>
+                                    <h3>Laboratory Equipment</h3>
+                                    <p>For operation, maintenance and calibration of lab instruments</p>
+                                </div>
+                                <div class="template-option" data-template="safety-protocol">
+                                    <div class="template-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <h3>Safety Protocol</h3>
+                                    <p>For handling hazardous materials and emergency procedures</p>
+                                </div>
+                                <div class="template-option" data-template="quality-control">
+                                    <div class="template-icon">
+                                        <i class="fas fa-check-double"></i>
+                                    </div>
+                                    <h3>Quality Control</h3>
+                                    <p>For manufacturing and testing quality assurance</p>
+                                </div>
+                                <div class="template-option" data-template="blank">
+                                    <div class="template-icon">
+                                        <i class="fas fa-file"></i>
+                                    </div>
+                                    <h3>Blank SOP</h3>
+                                    <p>Start from scratch with a compliant structure</p>
+                                </div>
+                            </div>
+                            <div class="template-actions">
+                                <button id="select-template" class="btn btn-primary">Continue with Selected Template</button>
+                            </div>
+                        </div>
+
+                        <!-- Questions Flow - Initially Hidden -->
+                        <div class="questions-flow" id="questions-flow" style="display: none;">
+                            <div class="progress-indicator">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 25%;"></div>
+                                </div>
+                                <div class="progress-steps">
+                                    <div class="progress-step active">
+                                        <div class="step-number">1</div>
+                                        <span>Basics</span>
+                                    </div>
+                                    <div class="progress-step">
+                                        <div class="step-number">2</div>
+                                        <span>Details</span>
+                                    </div>
+                                    <div class="progress-step">
+                                        <div class="step-number">3</div>
+                                        <span>Procedure</span>
+                                    </div>
+                                    <div class="progress-step">
+                                        <div class="step-number">4</div>
+                                        <span>Finalize</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Current Question Section -->
+                            <div class="current-question" id="current-question">
+                                <h2>Basic Information</h2>
+                                
+                                <div class="question-field">
+                                    <label for="sop-title">SOP Title</label>
+                                    <input type="text" id="sop-title" placeholder="e.g., Operation of pH Meter Model XYZ" class="form-input">
+                                    <div class="field-hint">Choose a descriptive title that clearly identifies the procedure</div>
+                                </div>
+                                
+                                <div class="question-field">
+                                    <label for="sop-id">SOP ID Number</label>
+                                    <input type="text" id="sop-id" placeholder="e.g., LAB-EQ-001" class="form-input">
+                                    <div class="field-hint">Use your organization's document numbering system</div>
+                                </div>
+                                
+                                <div class="question-field">
+                                    <label for="sop-purpose">Purpose of this SOP</label>
+                                    <textarea id="sop-purpose" rows="3" placeholder="Describe what this SOP is intended to accomplish..." class="form-input"></textarea>
+                                    <div class="field-hint">Briefly explain why this procedure exists and what it accomplishes</div>
+                                </div>
+                                
+                                <div class="question-field">
+                                    <label for="sop-scope">Scope and Applicability</label>
+                                    <textarea id="sop-scope" rows="3" placeholder="Define the boundaries of this procedure and when it should be used..." class="form-input"></textarea>
+                                    <div class="field-hint">Specify when, where, and by whom this procedure should be used</div>
+                                </div>
+                                
+                                <div class="question-actions">
+                                    <button id="next-question" class="btn btn-primary">Next: Equipment & Materials</button>
+                                    <button id="save-draft" class="btn btn-secondary">Save Draft</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Panel: Live Preview -->
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <h2>Live Preview</h2>
+                            <div class="preview-controls">
+                                <button id="toggle-preview" class="preview-control-btn">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-document" id="preview-document">
+                            <!-- SOP Preview Content -->
+                            <div class="preview-content">
+                                <div class="sop-header">
+                                    <div class="sop-title-block">
+                                        <h1 id="preview-sop-title">Standard Operating Procedure</h1>
+                                        <div class="sop-id" id="preview-sop-id">SOP ID: LAB-EQ-001</div>
+                                    </div>
+                                    <div class="sop-meta">
+                                        <div class="meta-item">
+                                            <div class="meta-label">Effective Date:</div>
+                                            <div class="meta-value">May 13, 2025</div>
+                                        </div>
+                                        <div class="meta-item">
+                                            <div class="meta-label">Version:</div>
+                                            <div class="meta-value">1.0</div>
+                                        </div>
+                                        <div class="meta-item">
+                                            <div class="meta-label">Prepared By:</div>
+                                            <div class="meta-value">SOPEasy User</div>
+                                        </div>
+                                        <div class="meta-item">
+                                            <div class="meta-label">Approved By:</div>
+                                            <div class="meta-value">Pending</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="sop-section">
+                                    <h2>1. Purpose</h2>
+                                    <p id="preview-purpose">This SOP describes the procedure for [purpose will appear here as you type].</p>
+                                </div>
+                                
+                                <div class="sop-section">
+                                    <h2>2. Scope</h2>
+                                    <p id="preview-scope">This procedure applies to [scope will appear here as you type].</p>
+                                </div>
+                                
+                                <div class="sop-section">
+                                    <h2>3. Responsibilities</h2>
+                                    <p>To be defined...</p>
+                                </div>
+                                
+                                <div class="sop-section">
+                                    <h2>4. Materials and Equipment</h2>
+                                    <p>To be defined...</p>
+                                </div>
+                                
+                                <div class="sop-section">
+                                    <h2>5. Procedure</h2>
+                                    <p>To be defined...</p>
+                                </div>
+                                
+                                <div class="sop-section">
+                                    <h2>6. References</h2>
+                                    <p>To be defined...</p>
+                                </div>
+                                
+                                <div class="sop-section">
+                                    <h2>7. Change History</h2>
+                                    <table class="sop-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Version</th>
+                                                <th>Date</th>
+                                                <th>Description of Change</th>
+                                                <th>Made By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1.0</td>
+                                                <td>May 13, 2025</td>
+                                                <td>Initial version</td>
+                                                <td>SOPEasy User</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="preview-actions">
+                            <button id="export-preview" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Export as PDF
+                            </button>
+                            <button id="share-preview" class="btn btn-secondary">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-text">SOPEasy</div>
+                    <p>Making SOP creation simple, fast, and compliant for regulated industries worldwide.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-links-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Templates</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Security</a></li>
+                            <li><a href="#">Compliance</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SOPEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+MIT License
+
+Copyright (c) 2024 WickWise Professional LFA Designer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+==============================================================================
+
+SCIENTIFIC DATA ATTRIBUTION
+
+This software incorporates real scientific data from the following sources:
+
+1. MATERIAL SPECIFICATIONS
+   - Millipore Sigma product datasheets (publicly available specifications)
+   - Cytiva membrane specifications (publicly available technical data)
+   - Sartorius material properties (publicly available documentation)
+   - Ahlstrom-Munksjö product specifications (publicly available data)
+
+2. SAMPLE PROPERTIES
+   - NIST Physical Properties Database (public domain)
+   - WHO Laboratory Guidelines (public health resources)
+   - Published literature values (properly attributed in code comments)
+
+3. PARTICLE PROPERTIES
+   - Peer-reviewed scientific literature (fair use for educational purposes)
+   - Manufacturer specifications (publicly available product data)
+   - Research publications (properly cited in code documentation)
+
+4. VALIDATED TEMPLATES
+   - COVID-19 test: Based on Nature Biotechnology publications
+   - Pregnancy test: Clinical Chemistry journal methodology
+   - Cardiac markers: Published clinical validation studies
+
+DISCLAIMER: The scientific data used in this software is incorporated under
+fair use principles for educational and research purposes. All data sources
+are properly attributed in the code documentation. Users should verify all
+specifications with original manufacturers before commercial use.
+
+ACADEMIC USE: This software is free for academic research and educational
+purposes. Please cite this work in academic publications.
+
+COMMERCIAL USE: This software is free for commercial use. However, users
+are responsible for verifying all scientific data and material specifications
+with original sources before commercial deployment. The authors make no
+warranty regarding the accuracy of embedded data for commercial applications.
+
+==============================================================================
+
+EXPORT COMPLIANCE
+
+This software contains technical data that may be subject to export control
+regulations. Users are responsible for compliance with applicable export
+control laws when distributing this software internationally.
+
+==============================================================================
+
+THIRD-PARTY ACKNOWLEDGMENTS
+
+This software uses publicly available scientific data and specifications:
+
+- Material properties: Respectfully incorporated from manufacturer datasheets
+- Sample characteristics: Based on standardized reference values
+- Calculation methods: Standard scientific equations and methodologies
+- User interface: Original design with inspiration from modern web applications
+
+No third-party libraries or frameworks are included. All code is original
+work licensed under MIT terms.

@@ -1806,6 +1806,45 @@ function updateDesign() {
     updateCostDisplay();
 }
 
+/**
+ * MISSING FUNCTION - This is what's needed!
+ */
+function calculateRealFlowDynamics() {
+    const sample = designState.sample;
+    const membrane = designState.components.membrane;
+    const environment = designState.environment;
+    
+    // Simple but real fluid mechanics
+    const viscosity = sample.viscosity;
+    const surfaceTension = sample.surfaceTension;
+    const temperature = environment.temperature;
+    
+    // Temperature corrections
+    const viscosityAtTemp = viscosity * Math.exp((25 - temperature) * 0.025);
+    const surfaceTensionAtTemp = surfaceTension * (1 - 0.001 * (temperature - 25));
+    
+    // Real Washburn equation (simplified)
+    const poreRadius = (membrane.poreSize || 8) / 2; // μm
+    const contactAngle = 10; // degrees (hydrophilic nitrocellulose)
+    const cosTheta = Math.cos(contactAngle * Math.PI / 180);
+    
+    // Washburn constant
+    const washburnConstant = (surfaceTensionAtTemp * poreRadius * cosTheta * membrane.porosity) / 
+                             (2 * viscosityAtTemp);
+    
+    // Flow calculations
+    const stripLength = 45; // mm
+    const flowRate = Math.sqrt(washburnConstant * 60) / Math.sqrt(stripLength); // mm/min
+    const flowTime = stripLength / Math.max(flowRate, 0.1); // minutes
+    const wickingRate = Math.sqrt(washburnConstant) / 60; // mm/s
+    
+    return {
+        flowRate: flowRate,
+        flowTime: flowTime,
+        wickingRate: wickingRate
+    };
+}
+
 function calculateAdvancedFlowParameters() {
     const flowDynamics = calculateRealFlowDynamics();
     const sensitivity = predictRealSensitivity();

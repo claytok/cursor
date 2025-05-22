@@ -29,7 +29,7 @@
         <div class="header">
             <div class="logo-section">
                 <div class="logo">🔬 WickWise</div>
-                <div class="version-badge">v2.1 Real</div>
+                <div class="version-badge">v2.1 Complete</div>
             </div>
             <div class="header-center">
                 <div class="design-info">
@@ -45,16 +45,19 @@
             </div>
             <div class="header-actions">
                 <button class="btn btn-primary" onclick="showTemplates()">
-                    📋 Templates
+                    <span class="btn-icon">📋</span>Load Template
                 </button>
                 <button class="btn btn-primary" onclick="showCompatibility()">
-                    🔗 Compatibility
+                    <span class="btn-icon">🔗</span>Compatibility
                 </button>
-                <button class="btn btn-warning" onclick="runAdvancedSimulation()">
-                    ⚡ Run Simulation
+                <button class="btn btn-primary" onclick="optimizeDesign()">
+                    <span class="btn-icon">⚡</span>Optimize
                 </button>
-                <button class="btn btn-success" onclick="exportDesign()">
-                    📤 Export
+                <button class="btn btn-success" onclick="runAdvancedSimulation()">
+                    <span class="btn-icon">▶️</span>Simulate
+                </button>
+                <button class="btn btn-primary" onclick="exportDesign()">
+                    <span class="btn-icon">📤</span>Export
                 </button>
             </div>
         </div>
@@ -79,7 +82,7 @@
                         <div class="component-name">Conjugate Pad</div>
                         <div class="component-desc">Labeled particle release</div>
                     </div>
-                    <div class="component-card" data-component="membrane" onclick="selectComponent(this)">
+                    <div class="component-card" data-component="membrane" onclick="changeMembranes()">
                         <span class="icon">🏗️</span>
                         <div class="component-name">Membrane</div>
                         <div class="component-desc">Capture & detection zone</div>
@@ -112,7 +115,7 @@
                     </div>
                     <div class="form-group">
                         <label>Concentration</label>
-                        <select class="form-control" id="particleConc">
+                        <select class="form-control" id="particleConc" onchange="updateDesign()">
                             <option value="low">Low</option>
                             <option value="medium" selected>Medium</option>
                             <option value="high">High</option>
@@ -125,7 +128,7 @@
                 <h3><span class="section-icon">🧪</span>Sample Properties</h3>
                 <div class="form-group">
                     <label>Sample Type</label>
-                    <select class="form-control" id="sampleType" onchange="updateDesign()">
+                    <select class="form-control" id="sampleType" onchange="updateSampleType(this.value)">
                         <option value="water">Pure Water</option>
                         <option value="saliva">Saliva</option>
                         <option value="blood">Whole Blood</option>
@@ -137,11 +140,13 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Viscosity (cP)</label>
-                        <input type="number" class="form-control" id="viscosity" value="1.0" step="0.1" onchange="updateDesign()">
+                        <input type="number" class="form-control" id="viscosity" value="1.0" step="0.1" onchange="updateViscosity(this.value)">
+                        <div class="range-value" id="viscosityValue">1.0 cP</div>
                     </div>
                     <div class="form-group">
                         <label>Surface Tension (mN/m)</label>
-                        <input type="number" class="form-control" id="surfaceTension" value="72.8" step="0.1" onchange="updateDesign()">
+                        <input type="number" class="form-control" id="surfaceTension" value="72.8" step="0.1" onchange="updateSurfaceTension(this.value)">
+                        <div class="range-value" id="surfaceTensionValue">72.8 mN/m</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -175,38 +180,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="sidebar-section">
-                <h3><span class="section-icon">⚙️</span>Performance Goals</h3>
-                <div class="form-group">
-                    <label>Target Flow Time</label>
-                    <select class="form-control" id="flowTarget" onchange="updateDesign()">
-                        <option value="ultrafast">Ultra Fast (< 2 min)</option>
-                        <option value="fast">Fast (2-5 min)</option>
-                        <option value="medium" selected>Medium (5-15 min)</option>
-                        <option value="slow">Slow (15-30 min)</option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Sensitivity Priority</label>
-                        <select class="form-control" id="sensitivity">
-                            <option value="maximum">Maximum</option>
-                            <option value="high" selected>High</option>
-                            <option value="medium">Medium</option>
-                            <option value="low">Low</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Cost Priority</label>
-                        <select class="form-control" id="costPriority">
-                            <option value="low">Low Cost</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="high">Premium</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Main Content -->
@@ -222,9 +195,8 @@
                     </div>
                     <div class="canvas-actions">
                         <button class="btn btn-primary" onclick="resetDesign()">🔄 Reset</button>
+                        <button class="btn btn-warning" onclick="changeMembranes()">🧫 Change Membrane</button>
                         <button class="btn btn-primary" onclick="optimizeDesign()">🚀 Auto-Optimize</button>
-                        <button class="btn btn-primary" onclick="showMaterialDB()">📚 Materials</button>
-                        <button class="btn btn-warning" onclick="batchSimulation()">📊 Batch Test</button>
                     </div>
                 </div>
 
@@ -243,7 +215,7 @@
                                 <div class="component-details">Glass Fiber • 8mm • Gold NPs</div>
                             </div>
                             <div class="flow-arrow">→</div>
-                            <div class="lfa-component membrane" onclick="editComponent('membrane')">
+                            <div class="lfa-component membrane" onclick="changeMembranes()">
                                 <div class="component-label">Nitrocellulose</div>
                                 <div class="component-material">Hi-Flow Plus</div>
                                 <div class="component-details">Hi-Flow Plus • 25mm • 0.15mm</div>
@@ -275,6 +247,7 @@
                         <div class="simulation-title">Real-World Simulation Results</div>
                         <div class="simulation-controls">
                             <button class="btn btn-primary" onclick="runRealTimeSimulation()">🔄 Real-time</button>
+                            <button class="btn btn-warning" onclick="changeMembranes()">🧬 Change Membrane</button>
                             <button class="btn btn-primary" onclick="exportResults()">📋 Export Data</button>
                         </div>
                     </div>
@@ -341,45 +314,82 @@
         </div>
     </div>
 
-    <!-- Modals -->
-    <div class="modal" id="compatibilityModal">
+    <!-- Template Selection Modal -->
+    <div id="templateModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">🔗 Real Compatibility Analysis</h2>
-                <button class="close-btn" onclick="closeModal('compatibilityModal')">&times;</button>
+                <h2>Validated LFA Templates</h2>
+                <span class="close-modal" onclick="closeModal('templateModal')">&times;</span>
             </div>
-            <div class="compatibility-grid" id="compatibilityGrid">
-                <!-- Dynamic content loaded by JavaScript -->
+            <div class="modal-body">
+                <p class="modal-intro">Select a scientifically validated template to jumpstart your design.</p>
+                <div id="templateContent" class="template-container">
+                    <!-- Template items will be populated here -->
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="materialModal">
+    <!-- Compatibility Analysis Modal -->
+    <div id="compatibilityModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">📚 Real Material Database</h2>
-                <button class="close-btn" onclick="closeModal('materialModal')">&times;</button>
+                <h2>Material Compatibility Analysis</h2>
+                <span class="close-modal" onclick="closeModal('compatibilityModal')">&times;</span>
             </div>
-            <div id="materialContent">
-                <!-- Dynamic content loaded by JavaScript -->
+            <div class="modal-body">
+                <p class="modal-intro">Scientific analysis of component interactions and compatibility.</p>
+                <div id="compatibilityGrid" class="compatibility-grid">
+                    <!-- Compatibility results will be populated here -->
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="templateModal">
+    <!-- Advanced Simulation Modal -->
+    <div id="simulationModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">📋 Validated Design Templates</h2>
-                <button class="close-btn" onclick="closeModal('templateModal')">&times;</button>
+                <h2>Advanced Simulation</h2>
+                <span class="close-modal" onclick="closeModal('simulationModal')">&times;</span>
             </div>
-            <div id="templateContent">
-                <!-- Dynamic content loaded by JavaScript -->
+            <div class="modal-body">
+                <p class="modal-intro">Running advanced fluid dynamics and binding kinetics simulation...</p>
+                <div class="simulation-progress-container">
+                    <div id="simulationProgress" class="simulation-progress-bar"></div>
+                </div>
+                <div id="simulationSteps" class="simulation-steps">
+                    <div class="step active">Loading material properties</div>
+                    <div class="step">Calculating fluid dynamics</div>
+                    <div class="step">Analyzing particle interactions</div>
+                    <div class="step">Estimating binding kinetics</div>
+                    <div class="step">Generating predictions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Design Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Export LFA Design</h2>
+                <span class="close-modal" onclick="closeModal('exportModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p class="modal-intro">Export your design in various formats.</p>
+                <div class="export-options">
+                    <button onclick="exportDesign()" class="action-button">Export as JSON</button>
+                    <button onclick="exportAsPDF()" class="action-button">Export as PDF Report</button>
+                    <button onclick="generateManufacturingSpecs()" class="action-button">Generate Manufacturing Specs</button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Load JavaScript -->
     <script src="app.js"></script>
+    <script src="diagnostic.js"></script>
     
     <!-- Schema.org structured data for SEO -->
     <script type="application/ld+json">

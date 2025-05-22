@@ -4,11 +4,406 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WickWise - Professional LFA Designer</title>
+    <meta name="description" content="Professional lateral flow assay designer with real scientific data integration. Design LFAs with validated materials, performance modeling, and cost analysis.">
+    <meta name="keywords" content="lateral flow assay, LFA, biosensor, diagnostic, design tool, bioengineering, medical device">
+    <meta name="author" content="WickWise Team">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="WickWise - Professional LFA Designer">
+    <meta property="og:description" content="Design lateral flow assays with real scientific data and validated materials">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wickwise.netlify.app">
+    <meta property="og:image" content="https://wickwise.netlify.app/og-image.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WickWise - Professional LFA Designer">
+    <meta name="twitter:description" content="Design lateral flow assays with real scientific data">
+    <meta name="twitter:image" content="https://wickwise.netlify.app/twitter-image.png">
 </head>
 <body>
-    <!-- Copy the entire HTML content from the artifacts above -->
-    <!-- This includes all the header, sidebar, main content, and modals -->
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo">🔬 WickWise</div>
+                <div class="version-badge">v2.1 Real</div>
+            </div>
+            <div class="header-center">
+                <div class="design-info">
+                    <div class="status-dot"></div>
+                    <span>Real Data Loaded</span>
+                </div>
+                <div class="design-info">
+                    <span>💾 Auto-saved 2 min ago</span>
+                </div>
+                <div class="design-info">
+                    <span>🌡️ <span id="headerTemp">25°C</span></span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="showTemplates()">
+                    📋 Templates
+                </button>
+                <button class="btn btn-primary" onclick="showCompatibility()">
+                    🔗 Compatibility
+                </button>
+                <button class="btn btn-warning" onclick="runAdvancedSimulation()">
+                    ⚡ Run Simulation
+                </button>
+                <button class="btn btn-success" onclick="exportDesign()">
+                    📤 Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Design Components</div>
+                <div class="design-summary">Real materials & validated parameters</div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><span class="section-icon">🧱</span>Core Components</h3>
+                <div class="component-grid">
+                    <div class="component-card" data-component="sample-pad" onclick="selectComponent(this)">
+                        <span class="icon">🧪</span>
+                        <div class="component-name">Sample Pad</div>
+                        <div class="component-desc">Initial sample application</div>
+                    </div>
+                    <div class="component-card" data-component="conjugate-pad" onclick="selectComponent(this)">
+                        <span class="icon">⚛️</span>
+                        <div class="component-name">Conjugate Pad</div>
+                        <div class="component-desc">Labeled particle release</div>
+                    </div>
+                    <div class="component-card" data-component="membrane" onclick="selectComponent(this)">
+                        <span class="icon">🏗️</span>
+                        <div class="component-name">Membrane</div>
+                        <div class="component-desc">Capture & detection zone</div>
+                    </div>
+                    <div class="component-card" data-component="absorbent-pad" onclick="selectComponent(this)">
+                        <span class="icon">🧽</span>
+                        <div class="component-name">Absorbent Pad</div>
+                        <div class="component-desc">Waste collection</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><span class="section-icon">⚛️</span>Detection Particles</h3>
+                <div class="form-group">
+                    <label>Particle Type</label>
+                    <select class="form-control" id="particleType" onchange="updateDesign()">
+                        <option value="gold-nano">Gold Nanoparticles</option>
+                        <option value="latex-beads">Latex Beads</option>
+                        <option value="quantum-dots">Quantum Dots</option>
+                        <option value="magnetic-beads">Magnetic Beads</option>
+                        <option value="fluorescent">Fluorescent Particles</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Size (nm)</label>
+                        <input type="range" class="form-control range-input" id="particleSize" min="20" max="100" value="40" oninput="updateParticleSize(this.value)">
+                        <div class="range-value" id="particleSizeValue">40 nm</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Concentration</label>
+                        <select class="form-control" id="particleConc">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><span class="section-icon">🧪</span>Sample Properties</h3>
+                <div class="form-group">
+                    <label>Sample Type</label>
+                    <select class="form-control" id="sampleType" onchange="updateDesign()">
+                        <option value="water">Pure Water</option>
+                        <option value="saliva">Saliva</option>
+                        <option value="blood">Whole Blood</option>
+                        <option value="serum">Serum</option>
+                        <option value="urine">Urine</option>
+                        <option value="plasma">Plasma</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Viscosity (cP)</label>
+                        <input type="number" class="form-control" id="viscosity" value="1.0" step="0.1" onchange="updateDesign()">
+                    </div>
+                    <div class="form-group">
+                        <label>Surface Tension (mN/m)</label>
+                        <input type="number" class="form-control" id="surfaceTension" value="72.8" step="0.1" onchange="updateDesign()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>pH Level</label>
+                    <input type="range" class="form-control range-input" id="phLevel" min="4" max="10" value="7" step="0.1" oninput="updatePH(this.value)">
+                    <div class="range-value" id="phValue">7.0</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><span class="section-icon">🌡️</span>Environmental</h3>
+                <div class="form-group">
+                    <label>Temperature (°C)</label>
+                    <input type="range" class="form-control range-input temp-slider" id="temperature" min="15" max="40" value="25" oninput="updateTemperature(this.value)">
+                    <div class="temp-display" id="tempValue">25°C</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Humidity (%)</label>
+                        <input type="range" class="form-control range-input" id="humidity" min="30" max="90" value="60" oninput="updateHumidity(this.value)">
+                        <div class="range-value" id="humidityValue">60%</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Storage Time</label>
+                        <select class="form-control" id="storageTime">
+                            <option value="fresh">Fresh (< 1 day)</option>
+                            <option value="week" selected>1 Week</option>
+                            <option value="month">1 Month</option>
+                            <option value="year">1 Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3><span class="section-icon">⚙️</span>Performance Goals</h3>
+                <div class="form-group">
+                    <label>Target Flow Time</label>
+                    <select class="form-control" id="flowTarget" onchange="updateDesign()">
+                        <option value="ultrafast">Ultra Fast (< 2 min)</option>
+                        <option value="fast">Fast (2-5 min)</option>
+                        <option value="medium" selected>Medium (5-15 min)</option>
+                        <option value="slow">Slow (15-30 min)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Sensitivity Priority</label>
+                        <select class="form-control" id="sensitivity">
+                            <option value="maximum">Maximum</option>
+                            <option value="high" selected>High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cost Priority</label>
+                        <select class="form-control" id="costPriority">
+                            <option value="low">Low Cost</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">Premium</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="canvas-container">
+                <div class="canvas-header">
+                    <div class="canvas-title-section">
+                        <div class="canvas-title">LFA Design Studio</div>
+                        <div class="design-status">
+                            <div class="status-dot"></div>
+                            <span>Real Data Validated</span>
+                        </div>
+                    </div>
+                    <div class="canvas-actions">
+                        <button class="btn btn-primary" onclick="resetDesign()">🔄 Reset</button>
+                        <button class="btn btn-primary" onclick="optimizeDesign()">🚀 Auto-Optimize</button>
+                        <button class="btn btn-primary" onclick="showMaterialDB()">📚 Materials</button>
+                        <button class="btn btn-warning" onclick="batchSimulation()">📊 Batch Test</button>
+                    </div>
+                </div>
+
+                <div class="lfa-builder">
+                    <div class="lfa-strip-container">
+                        <div class="lfa-strip" id="lfaStrip">
+                            <div class="lfa-component sample-pad" onclick="editComponent('sample-pad')">
+                                <div class="component-label">Sample Pad</div>
+                                <div class="component-material">Glass Fiber</div>
+                                <div class="component-details">Glass Fiber • 15mm • 0.8mm thick</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="lfa-component conjugate-pad" onclick="editComponent('conjugate-pad')">
+                                <div class="component-label">Conjugate Pad</div>
+                                <div class="component-material">Glass Fiber</div>
+                                <div class="component-details">Glass Fiber • 8mm • Gold NPs</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="lfa-component membrane" onclick="editComponent('membrane')">
+                                <div class="component-label">Nitrocellulose</div>
+                                <div class="component-material">Hi-Flow Plus</div>
+                                <div class="component-details">Hi-Flow Plus • 25mm • 0.15mm</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="lfa-component absorbent-pad" onclick="editComponent('absorbent-pad')">
+                                <div class="component-label">Absorbent Pad</div>
+                                <div class="component-material">Cellulose</div>
+                                <div class="component-details">Cellulose • 20mm • High capacity</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real Data Panel -->
+                <div class="data-source-panel">
+                    <h4>📊 Real Data Sources</h4>
+                    <div class="data-sources">
+                        <span class="data-badge">Millipore Sigma Materials</span>
+                        <span class="data-badge">Cytiva Membranes</span>
+                        <span class="data-badge">Literature Validated</span>
+                        <span class="data-badge">FDA Guidelines</span>
+                    </div>
+                </div>
+
+                <!-- Enhanced Simulation Panel -->
+                <div class="simulation-panel">
+                    <div class="simulation-header">
+                        <div class="simulation-title">Real-World Simulation Results</div>
+                        <div class="simulation-controls">
+                            <button class="btn btn-primary" onclick="runRealTimeSimulation()">🔄 Real-time</button>
+                            <button class="btn btn-primary" onclick="exportResults()">📋 Export Data</button>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="simulationProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="simulation-results" id="simulationResults">
+                        <div class="result-card">
+                            <div class="result-value" id="flowTime">8.5</div>
+                            <div class="result-label">Flow Time (min)</div>
+                            <div class="result-change positive" id="flowTimeChange">+12% vs target</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-value" id="flowRate">2.3</div>
+                            <div class="result-label">Flow Rate (mm/min)</div>
+                            <div class="result-change positive" id="flowRateChange">Optimal</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-value" id="wickingRate">1.8</div>
+                            <div class="result-label">Wicking Rate (mm/s)</div>
+                            <div class="result-change positive" id="wickingChange">+5% improved</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-value" id="sensitivity">92%</div>
+                            <div class="result-label">Est. Sensitivity</div>
+                            <div class="result-change positive" id="sensitivityChange">Excellent</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-value" id="specificity">96%</div>
+                            <div class="result-label">Est. Specificity</div>
+                            <div class="result-change positive">High confidence</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-value" id="stability">85%</div>
+                            <div class="result-label">Stability Score</div>
+                            <div class="result-change positive">Robust design</div>
+                        </div>
+                    </div>
+
+                    <!-- Cost Estimation Panel -->
+                    <div class="cost-panel">
+                        <div class="cost-title">💰 Real Market Pricing (per unit)</div>
+                        <div class="cost-breakdown" id="costBreakdown">
+                            <div class="cost-item">
+                                <div class="cost-value" id="materialCost">$0.85</div>
+                                <div class="cost-label">Materials</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="cost-value" id="manufacturingCost">$0.23</div>
+                                <div class="cost-label">Manufacturing</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="cost-value" id="packagingCost">$0.12</div>
+                                <div class="cost-label">Packaging</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="cost-value" id="totalCost">$1.20</div>
+                                <div class="cost-label">Total Cost</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="compatibilityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🔗 Real Compatibility Analysis</h2>
+                <button class="close-btn" onclick="closeModal('compatibilityModal')">&times;</button>
+            </div>
+            <div class="compatibility-grid" id="compatibilityGrid">
+                <!-- Dynamic content loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="materialModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📚 Real Material Database</h2>
+                <button class="close-btn" onclick="closeModal('materialModal')">&times;</button>
+            </div>
+            <div id="materialContent">
+                <!-- Dynamic content loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="templateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📋 Validated Design Templates</h2>
+                <button class="close-btn" onclick="closeModal('templateModal')">&times;</button>
+            </div>
+            <div id="templateContent">
+                <!-- Dynamic content loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Load JavaScript -->
+    <script src="app.js"></script>
+    
+    <!-- Schema.org structured data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "WickWise Professional LFA Designer",
+        "description": "Professional lateral flow assay designer with real scientific data integration",
+        "url": "https://wickwise.netlify.app",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "WickWise Team"
+        },
+        "softwareVersion": "2.1.0",
+        "dateModified": "2024-01-15",
+        "keywords": "lateral flow assay, LFA, biosensor, diagnostic, design tool, bioengineering"
+    }
+    </script>
 </body>
 </html>
